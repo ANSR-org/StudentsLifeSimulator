@@ -23,6 +23,8 @@ import java.util.Set;
 public class SpecialtyController extends BaseController {
 
     private static final int START_MONEY = 1000;
+    private static final int START_ENERGY = 50;
+
 
     private final StudentRepository studentRepository;
     private final StudentService studentService;
@@ -74,6 +76,8 @@ public class SpecialtyController extends BaseController {
 
         double fraction = Math.max(0.1, size/answered);
         student.setMoney(student.getMoney() + (int)(START_MONEY * fraction));
+        student.setEnergy(student.getEnergy() + (int)(START_ENERGY * fraction));
+        student.setPopularity(0L);
         student.setSpecialty(specialty);
         this.studentRepository.save(student);
         specialty.getStudents().add(student);
