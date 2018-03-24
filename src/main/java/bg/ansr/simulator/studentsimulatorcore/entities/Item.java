@@ -52,7 +52,7 @@ public class Item {
     public void setStudentItems(Set<StudentItem> studentItems) {
         this.studentItems = studentItems;
     }
-    
+
     @OneToMany(mappedBy = "item", targetEntity = StudentItem.class)
     public Set<Trade> getTrades() {
         return trades;
