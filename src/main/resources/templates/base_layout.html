@@ -3,16 +3,19 @@
 
 <head>
     <!--<title th:text="${title}"></title>-->
-    <link th:href="@{/web/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/web/css/bootstrap-theme.css}" rel="stylesheet" type="text/css"/>
     <script th:src="@{/web/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/web/js/bootstrap.js}"></script>
+    <link th:href="@{/web/css/style.css}" rel="stylesheet" type="text/css" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta charset="utf-8" />
 </head>
 
 <body>
-<div class="background">
-    <div id="content" class="container">
-        <main th:replace="~{${view} :: main}"></main>
+    <nav th:replace="~{fragments/header :: div}"></nav>
+    <div style="margin: 100px"></div>
+    <div class="container">
+        <main th:replace="~{${view} :: main}" ></main>
         <footer th:replace="~{fragments/footer :: footer}"></footer>
     </div>
     <span th:insert="~{fragments/scripts-bundle}"></span>
