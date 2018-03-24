@@ -22,6 +22,7 @@ public class Student {
     private Lecture currentLecture;
     private Set<Schedule> schedules;
     private Set<Payment> payments;
+    private Set<StudentItem> items;
 
     public Student() {
         this.schedules = new HashSet<>();
@@ -140,5 +141,14 @@ public class Student {
 
     public void setPayments(Set<Payment> payments) {
         this.payments = payments;
+    }
+
+    @OneToMany(mappedBy = "student", targetEntity = StudentItem.class)
+    public Set<StudentItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<StudentItem> studentItems) {
+        this.items = studentItems;
     }
 }
