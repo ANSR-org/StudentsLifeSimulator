@@ -1,12 +1,10 @@
 package bg.ansr.simulator.studentsimulatorcore.entities;
 
 
-import org.apache.catalina.Host;
-
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
+@Table(name = "students", uniqueConstraints = {@UniqueConstraint(columnNames = {"email","username"})})
 public class Student {
 
     private Long id;
@@ -47,6 +45,7 @@ public class Student {
         this.password = password;
     }
 
+    @Column(unique = true)
     public String getEmail() {
         return email;
     }

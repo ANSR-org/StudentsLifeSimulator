@@ -1,9 +1,11 @@
 package bg.ansr.simulator.studentsimulatorcore.entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name="hostels")
 public class Hostel {
 
     private Long id;
@@ -13,6 +15,10 @@ public class Hostel {
     private Long distance;
     private Set<Student> students;
     private University university;
+
+    public Hostel() {
+        this.students = new HashSet<>();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

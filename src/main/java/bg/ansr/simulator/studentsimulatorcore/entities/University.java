@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "universities")
 public class University {
 
     private Long id;

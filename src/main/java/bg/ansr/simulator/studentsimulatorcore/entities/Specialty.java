@@ -1,15 +1,21 @@
 package bg.ansr.simulator.studentsimulatorcore.entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "specialties")
 public class Specialty {
 
     private Long id;
     private String name;
     private University university;
     private Set<Student> students;
+
+    public Specialty() {
+        this.students = new HashSet<>();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
