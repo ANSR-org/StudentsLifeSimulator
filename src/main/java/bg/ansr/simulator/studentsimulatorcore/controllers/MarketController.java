@@ -1,6 +1,5 @@
 package bg.ansr.simulator.studentsimulatorcore.controllers;
 
-import bg.ansr.simulator.studentsimulatorcore.entities.Item;
 import bg.ansr.simulator.studentsimulatorcore.entities.Student;
 import bg.ansr.simulator.studentsimulatorcore.entities.StudentItem;
 import bg.ansr.simulator.studentsimulatorcore.entities.Trade;
@@ -10,7 +9,6 @@ import bg.ansr.simulator.studentsimulatorcore.repositories.student.StudentItemRe
 import bg.ansr.simulator.studentsimulatorcore.repositories.student.StudentRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.student.TradeRepository;
 import bg.ansr.simulator.studentsimulatorcore.services.student.StudentService;
-import org.springframework.data.domain.Example;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

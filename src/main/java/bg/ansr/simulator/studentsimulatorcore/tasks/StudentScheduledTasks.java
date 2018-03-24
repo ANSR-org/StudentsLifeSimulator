@@ -1,9 +1,7 @@
 package bg.ansr.simulator.studentsimulatorcore.tasks;
 
 import bg.ansr.simulator.studentsimulatorcore.entities.StudentItem;
-import bg.ansr.simulator.studentsimulatorcore.repositories.student.ItemRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.student.StudentItemRepository;
-import bg.ansr.simulator.studentsimulatorcore.repositories.student.StudentRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
