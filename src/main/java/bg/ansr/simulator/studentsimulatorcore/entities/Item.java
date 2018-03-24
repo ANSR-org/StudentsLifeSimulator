@@ -1,6 +1,7 @@
 package bg.ansr.simulator.studentsimulatorcore.entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -10,6 +11,12 @@ public class Item {
     private String name;
     private Double basePrice;
     private Set<StudentItem> studentItems;
+    private Set<Trade> trades;
+
+    public Item() {
+        this.studentItems = new HashSet<>();
+        this.trades = new HashSet<>();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,5 +51,14 @@ public class Item {
 
     public void setStudentItems(Set<StudentItem> studentItems) {
         this.studentItems = studentItems;
+    }
+    
+    @OneToMany(mappedBy = "item", targetEntity = StudentItem.class)
+    public Set<Trade> getTrades() {
+        return trades;
+    }
+
+    public void setTrades(Set<Trade> trades) {
+        this.trades = trades;
     }
 }

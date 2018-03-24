@@ -23,10 +23,14 @@ public class Student {
     private Set<Schedule> schedules;
     private Set<Payment> payments;
     private Set<StudentItem> items;
+    private Set<Trade> trades;
+
 
     public Student() {
         this.schedules = new HashSet<>();
         this.payments = new HashSet<>();
+        this.items = new HashSet<>();
+        this.trades = new HashSet<>();
     }
 
     @Id
@@ -150,5 +154,14 @@ public class Student {
 
     public void setItems(Set<StudentItem> studentItems) {
         this.items = studentItems;
+    }
+
+    @OneToMany(mappedBy = "student", targetEntity = Trade.class)
+    public Set<Trade> getTrades() {
+        return trades;
+    }
+
+    public void setTrades(Set<Trade> trades) {
+        this.trades = trades;
     }
 }
