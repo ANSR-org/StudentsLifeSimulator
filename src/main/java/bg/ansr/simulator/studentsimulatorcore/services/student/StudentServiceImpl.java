@@ -60,7 +60,7 @@ public class StudentServiceImpl implements StudentService {
     public void chooseHostel(Long hostelId) throws Exception {
         Student student = this.current();
         if (student.getHostel() != null) {
-            throw new Exception("User already have hostel!");
+            throw new Exception("Student already have hostel!");
         }
 
         Hostel hostel = this.hostelRepository.findOne(hostelId);
@@ -69,7 +69,12 @@ public class StudentServiceImpl implements StudentService {
             throw new Exception("Hostel does not exist!");
         }
 
+        if (hostel.getRentPrice() > student.getMoney()) {
+            throw new Exception("Student does not have enough money");
+        }
+
         student.setHostel(hostel);
+        student.setMoney(student.getMoney() - hostel.getRentPrice());
         this.studentRepository.save(student);
         hostel.getStudents().add(student);
         this.hostelRepository.save(hostel);

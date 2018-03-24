@@ -15,6 +15,7 @@ public class Hostel {
     private Long distance;
     private Set<Student> students;
     private University university;
+    private Long rentPrice;
 
     public Hostel() {
         this.students = new HashSet<>();
@@ -78,5 +79,13 @@ public class Hostel {
 
     public void setUniversity(University university) {
         this.university = university;
+    }
+
+    public Long getRentPrice() {
+        return rentPrice;
+    }
+
+    public void setRentPrice(Long rentPrice) {
+        this.rentPrice = rentPrice;
     }
 }

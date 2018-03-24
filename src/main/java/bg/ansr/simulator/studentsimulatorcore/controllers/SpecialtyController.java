@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @PreAuthorize("isAuthenticated()")
 public class SpecialtyController extends BaseController {
+
+    private static final int START_MONEY = 1000;
 
     private final StudentRepository studentRepository;
     private final StudentService studentService;
@@ -56,16 +59,21 @@ public class SpecialtyController extends BaseController {
 
         Specialty specialty = this.specialtyRepository.findOne(id);
         Map<Long, String> answers = model.getAnswers();
-        for (SpecialtyQuestion question : specialty.getQuestions()) {
+        Set<SpecialtyQuestion> questions = specialty.getQuestions();
+        double size = questions.size();
+        double answered = 0;
+        for (SpecialtyQuestion question : questions) {
             if (!answers.containsKey(question.getId())) {
                 throw new Exception("Non full questions collection supplied. Probably user edited input!");
             }
 
-            if (!question.getAnswer().trim().equals(answers.get(question.getId()).trim())) {
-                return this.view();
+            if (question.getAnswer().trim().equals(answers.get(question.getId()).trim())) {
+                answered++;
             }
         }
 
+        double fraction = Math.max(0.1, size/answered);
+        student.setMoney(student.getMoney() + (int)(START_MONEY * fraction));
         student.setSpecialty(specialty);
         this.studentRepository.save(student);
         specialty.getStudents().add(student);
