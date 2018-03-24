@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <!--<title th:text="${title}"></title>-->
@@ -12,13 +12,13 @@
 </head>
 
 <body>
-    <nav th:replace="~{fragments/header :: div}"></nav>
-    <div style="margin: 100px"></div>
+    <div th:replace="~{fragments/header :: div}"></div>
+    <div style="margin: 70px"></div>
+    <nav th:replace="~{fragments/statistics :: nav}"></nav>
     <div class="container">
         <main th:replace="~{${view} :: main}" ></main>
         <footer th:replace="~{fragments/footer :: footer}"></footer>
     </div>
     <span th:insert="~{fragments/scripts-bundle}"></span>
-</div>
 </body>
 </html>
