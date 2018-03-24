@@ -32,4 +32,12 @@ public class UniversityController extends BaseController {
         this.studentService.chooseUniversity(id);
         return this.redirect("/overview");
     }
+
+
+    @GetMapping("/university/{id}")
+    public ModelAndView university(@PathVariable Long id) {
+        return this.view(this.universityRepository.findOne(id));
+    }
+
+
 }

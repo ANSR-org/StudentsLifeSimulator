@@ -4,6 +4,7 @@ import bg.ansr.simulator.studentsimulatorcore.entities.Specialty;
 import bg.ansr.simulator.studentsimulatorcore.entities.SpecialtyQuestion;
 import bg.ansr.simulator.studentsimulatorcore.entities.Student;
 import bg.ansr.simulator.studentsimulatorcore.models.lecture.ChosenOptionalLectureWrapper;
+import bg.ansr.simulator.studentsimulatorcore.models.lecture.LecturesViewModel;
 import bg.ansr.simulator.studentsimulatorcore.models.specialty.ChooseSpecialtyBindingModel;
 import bg.ansr.simulator.studentsimulatorcore.repositories.lecture.LectureRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.specialty.SpecialtyQuestionRepository;
@@ -91,33 +92,28 @@ public class SpecialtyController extends BaseController {
         return this.redirect("/specialty/{id}/lectures/mandatory");
     }
 
-
     @GetMapping("/specialty/{id}/lectures/mandatory")
-    @PreAuthorize("isAuthenticated()")
     public ModelAndView mandatoryLectures(@PathVariable Long id) throws Exception {
-        if (this.studentService.current().getSpecialty().getId().equals(id)) {
-            return this.view(this.lectureRepository.findAllBySpecialtyId(id));
+        if (this.validateSpecialty(id)) {
+            LecturesViewModel lecturesViewModel = new LecturesViewModel();
+            lecturesViewModel.setMandatoryLectures(this.lectureRepository.findAllBySpecialtyId(id));
+            lecturesViewModel.setOptionalLectures(this.lectureRepository.findAllBySpecialtyIdAndMandatoryFalse(id));
+            return this.view(lecturesViewModel);
         }
         throw new Exception("Student is not enrolled for this specialty");
     }
-
-    @GetMapping("/specialty/{id}/lectures/optional")
-    @PreAuthorize("isAuthenticated()")
-    public ModelAndView optionalLectures(@PathVariable Long id) throws Exception {
-        if (this.studentService.current().getSpecialty().getId().equals(id)) {
-            return this.view(this.lectureRepository.findAllBySpecialtyIdAndMandatoryFalse(id));
-        }
-        throw new Exception("Student is not enrolled for this specialty");
-    }
-
 
     @PostMapping("/specialty/{id}/lectures/mandatory")
-    @PreAuthorize("isAuthenticated()")
     public ModelAndView optionalLectures(@PathVariable Long id, ChosenOptionalLectureWrapper chosenLectures) throws Exception {
-        if (this.studentService.current().getSpecialty().getId().equals(id)) {
+        if (this.validateSpecialty(id)) {
+            this.studentService.chooseOptionalLectures(chosenLectures);
             return this.redirect("/hostels/choose");
         }
         throw new Exception("Student is not enrolled for this specialty");
+    }
+
+    private boolean validateSpecialty(Long specialtyId) {
+        return this.studentService.current().getSpecialty().getId().equals(specialtyId);
     }
 
 }

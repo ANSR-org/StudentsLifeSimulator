@@ -1,11 +1,11 @@
 package bg.ansr.simulator.studentsimulatorcore.services.student;
 
-import bg.ansr.simulator.studentsimulatorcore.entities.Hostel;
-import bg.ansr.simulator.studentsimulatorcore.entities.Student;
-import bg.ansr.simulator.studentsimulatorcore.entities.University;
+import bg.ansr.simulator.studentsimulatorcore.entities.*;
 import bg.ansr.simulator.studentsimulatorcore.models.lecture.ChosenOptionalLectureWrapper;
 import bg.ansr.simulator.studentsimulatorcore.models.student.UserRegisterBindingModel;
 import bg.ansr.simulator.studentsimulatorcore.repositories.hostel.HostelRepository;
+import bg.ansr.simulator.studentsimulatorcore.repositories.lecture.LectureRepository;
+import bg.ansr.simulator.studentsimulatorcore.repositories.schedule.ScheduleRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.student.StudentRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.university.UniversityRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,15 +26,21 @@ public class StudentServiceImpl implements StudentService {
     private final PasswordEncoder passwordEncoder;
     private final HostelRepository hostelRepository;
     private final UniversityRepository universityRepository;
+    private final ScheduleRepository scheduleRepository;
+    private final LectureRepository lectureRepository;
 
     public StudentServiceImpl(StudentRepository studentRepository,
                               PasswordEncoder passwordEncoder,
                               HostelRepository hostelRepository,
-                              UniversityRepository universityRepository) {
+                              UniversityRepository universityRepository,
+                              ScheduleRepository scheduleRepository,
+                              LectureRepository lectureRepository) {
         this.studentRepository = studentRepository;
         this.passwordEncoder = passwordEncoder;
         this.hostelRepository = hostelRepository;
         this.universityRepository = universityRepository;
+        this.scheduleRepository = scheduleRepository;
+        this.lectureRepository = lectureRepository;
     }
 
     @Override
@@ -88,7 +94,21 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void chooseOptionalLectures(ChosenOptionalLectureWrapper chosenLectures) {
-
+        //TODO check for collision
+        chosenLectures.getChosenLectures().forEach(l -> {
+            Student student = this.current();
+            Lecture lecture = this.lectureRepository.findOne(l.getLectureId());
+            Schedule schedule = new Schedule();
+            schedule.setLecture(lecture);
+            schedule.setSubscribedStudent(student);
+            schedule.setStartedAt(l.getStartAt());
+            schedule.setEndedAt(l.getEndAt());
+            this.scheduleRepository.save(schedule);
+            student.getSchedules().add(schedule);
+            lecture.getSchedules().add(schedule);
+            this.studentRepository.save(student);
+            this.lectureRepository.save(lecture);
+        });
     }
 
     @Override
