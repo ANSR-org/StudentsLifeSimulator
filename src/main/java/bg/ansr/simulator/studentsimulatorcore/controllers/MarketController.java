@@ -58,7 +58,11 @@ public class MarketController extends BaseController {
 
         seller.setMoney(seller.getMoney() + trade.getPrice().longValue());
         buyer.setMoney(buyer.getMoney() - trade.getPrice().longValue());
-
+        StudentItem studentItem = buyer.getItems().stream().filter(i -> i.getItem().getId().equals(trade.getItem().getId()))
+                .findFirst()
+                .get();
+        studentItem.setCount(studentItem.getCount() + trade.getCount());
+        this.studentItemRepository.save(studentItem);
         this.studentRepository.save(buyer);
         this.studentRepository.save(seller);
         this.tradeRepository.delete(trade);
@@ -81,11 +85,11 @@ public class MarketController extends BaseController {
             throw new Exception("Item not owned!");
         }
         StudentItem ownedItem = ownedItemCandidate.get();
-        if (ownedItem.getCount() < offer.getCount()) {
-            throw new Exception("Cannot sell more than owned!");
+        if (ownedItem.getCount() < offer.getCount() || offer.getCount() <= 0) {
+            throw new Exception("Cannot sell more than owned or zero!");
         }
 
-        double basePrice = ownedItem.getCount() * ownedItem.getItem().getBasePrice();
+        double basePrice = offer.getCount() * ownedItem.getItem().getBasePrice();
         double deviation = Math.abs(basePrice - offer.getPrice());
         if (deviation/basePrice > MAX_DEVIATION) {
             throw new Exception("Cannot sell for more " + MAX_DEVIATION + " deviation");

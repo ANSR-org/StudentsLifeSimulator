@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="model" type="java.util.List<bg.ansr.simulator.studentsimulatorcore.entities.Trade>"*/-->
+<main>
+    <a th:href="|/market/publish|">Place an offer</a>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>Count</th>
+            <th>Seller</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="trade : ${model}">
+            <td th:text="${trade.item.name}"></td>
+            <td th:text="${trade.count}"></td>
+            <td th:text="${trade.student.username}"></td>
+            <td th:text="${trade.price}"></td>
+            <td>
+                <form th:action="|/market/buy/${trade.id}|" method="post">
+                    <input type="submit" value="Buy!"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
