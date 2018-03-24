@@ -1,6 +1,7 @@
 package bg.ansr.simulator.studentsimulatorcore.entities;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class StudentItem {
@@ -9,6 +10,7 @@ public class StudentItem {
     private Student student;
     private Item item;
     private Long count;
+    private Date lastUpdate;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,5 +46,13 @@ public class StudentItem {
 
     public void setCount(Long count) {
         this.count = count;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

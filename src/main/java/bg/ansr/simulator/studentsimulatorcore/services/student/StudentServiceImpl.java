@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.HashSet;
 
 @Service
@@ -103,6 +104,7 @@ public class StudentServiceImpl implements StudentService {
             studentItem.setItem(item);
             studentItem.setCount(1L);
             studentItem.setStudent(student);
+            studentItem.setLastUpdate(new Date());
             this.studentItemRepository.save(studentItem);
             student.getItems().add(studentItem);
             this.studentRepository.save(student);
