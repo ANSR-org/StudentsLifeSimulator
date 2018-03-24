@@ -21,9 +21,11 @@ public class Student {
     private Long popularity;
     private Lecture currentLecture;
     private Set<Schedule> schedules;
+    private Set<Payment> payments;
 
     public Student() {
         this.schedules = new HashSet<>();
+        this.payments = new HashSet<>();
     }
 
     @Id
@@ -129,5 +131,14 @@ public class Student {
 
     public void setSchedules(Set<Schedule> schedules) {
         this.schedules = schedules;
+    }
+
+    @OneToMany(targetEntity = Payment.class, mappedBy = "student")
+    public Set<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Set<Payment> payments) {
+        this.payments = payments;
     }
 }
