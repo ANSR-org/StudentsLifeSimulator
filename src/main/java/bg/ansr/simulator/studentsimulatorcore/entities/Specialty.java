@@ -12,6 +12,7 @@ public class Specialty {
     private String name;
     private University university;
     private Set<Student> students;
+    private Set<SpecialtyQuestion> questions;
 
     public Specialty() {
         this.students = new HashSet<>();
@@ -51,5 +52,14 @@ public class Specialty {
 
     public void setStudents(Set<Student> students) {
         this.students = students;
+    }
+
+    @OneToMany(mappedBy = "specialty", targetEntity = SpecialtyQuestion.class)
+    public Set<SpecialtyQuestion> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Set<SpecialtyQuestion> questions) {
+        this.questions = questions;
     }
 }

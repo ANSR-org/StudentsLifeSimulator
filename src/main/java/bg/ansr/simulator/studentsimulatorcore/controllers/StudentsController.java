@@ -36,5 +36,4 @@ public class StudentsController extends BaseController {
             return this.view();
         }
     }
-
 }
