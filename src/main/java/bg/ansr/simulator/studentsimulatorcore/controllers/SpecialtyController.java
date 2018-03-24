@@ -3,7 +3,9 @@ package bg.ansr.simulator.studentsimulatorcore.controllers;
 import bg.ansr.simulator.studentsimulatorcore.entities.Specialty;
 import bg.ansr.simulator.studentsimulatorcore.entities.SpecialtyQuestion;
 import bg.ansr.simulator.studentsimulatorcore.entities.Student;
+import bg.ansr.simulator.studentsimulatorcore.models.lecture.ChosenOptionalLectureWrapper;
 import bg.ansr.simulator.studentsimulatorcore.models.specialty.ChooseSpecialtyBindingModel;
+import bg.ansr.simulator.studentsimulatorcore.repositories.lecture.LectureRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.specialty.SpecialtyQuestionRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.specialty.SpecialtyRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.student.StudentRepository;
@@ -30,16 +32,19 @@ public class SpecialtyController extends BaseController {
     private final StudentService studentService;
     private final SpecialtyRepository specialtyRepository;
     private final SpecialtyQuestionRepository questionRepository;
+    private final LectureRepository lectureRepository;
 
 
     public SpecialtyController(StudentRepository studentRepository,
                                StudentService studentService,
                                SpecialtyRepository specialtyRepository,
-                               SpecialtyQuestionRepository questionRepository) {
+                               SpecialtyQuestionRepository questionRepository,
+                               LectureRepository lectureRepository) {
         this.studentRepository = studentRepository;
         this.studentService = studentService;
         this.specialtyRepository = specialtyRepository;
         this.questionRepository = questionRepository;
+        this.lectureRepository = lectureRepository;
     }
 
     @GetMapping("/specialties")
@@ -74,15 +79,45 @@ public class SpecialtyController extends BaseController {
             }
         }
 
-        double fraction = Math.max(0.1, size/answered);
-        student.setMoney(student.getMoney() + (int)(START_MONEY * fraction));
-        student.setEnergy(student.getEnergy() + (int)(START_ENERGY * fraction));
+        double fraction = Math.max(0.1, size / answered);
+        student.setMoney(student.getMoney() + (int) (START_MONEY * fraction));
+        student.setEnergy(student.getEnergy() + (int) (START_ENERGY * fraction));
         student.setPopularity(0L);
         student.setSpecialty(specialty);
         this.studentRepository.save(student);
         specialty.getStudents().add(student);
         this.specialtyRepository.save(specialty);
 
-        return this.redirect("/hostels/choose");
+        return this.redirect("/specialty/{id}/lectures/mandatory");
     }
+
+
+    @GetMapping("/specialty/{id}/lectures/mandatory")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView mandatoryLectures(@PathVariable Long id) throws Exception {
+        if (this.studentService.current().getSpecialty().getId().equals(id)) {
+            return this.view(this.lectureRepository.findAllBySpecialtyId(id));
+        }
+        throw new Exception("Student is not enrolled for this specialty");
+    }
+
+    @GetMapping("/specialty/{id}/lectures/optional")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView optionalLectures(@PathVariable Long id) throws Exception {
+        if (this.studentService.current().getSpecialty().getId().equals(id)) {
+            return this.view(this.lectureRepository.findAllBySpecialtyIdAndMandatoryFalse(id));
+        }
+        throw new Exception("Student is not enrolled for this specialty");
+    }
+
+
+    @PostMapping("/specialty/{id}/lectures/mandatory")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView optionalLectures(@PathVariable Long id, ChosenOptionalLectureWrapper chosenLectures) throws Exception {
+        if (this.studentService.current().getSpecialty().getId().equals(id)) {
+            return this.redirect("/hostels/choose");
+        }
+        throw new Exception("Student is not enrolled for this specialty");
+    }
+
 }

@@ -2,6 +2,8 @@ package bg.ansr.simulator.studentsimulatorcore.entities;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "students", uniqueConstraints = {@UniqueConstraint(columnNames = {"email","username"})})
@@ -17,6 +19,12 @@ public class Student {
     private Long energy;
     private Long money;
     private Long popularity;
+    private Lecture currentLecture;
+    private Set<Schedule> schedules;
+
+    public Student() {
+        this.schedules = new HashSet<>();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -103,5 +111,23 @@ public class Student {
 
     public void setPopularity(Long popularity) {
         this.popularity = popularity;
+    }
+
+    @ManyToOne
+    public Lecture getCurrentLecture() {
+        return this.currentLecture;
+    }
+
+    public void setCurrentLecture(Lecture currentLecture) {
+        this.currentLecture = currentLecture;
+    }
+
+    @OneToMany(mappedBy = "subscribedStudent", targetEntity = Schedule.class)
+    public Set<Schedule> getSchedules() {
+        return this.schedules;
+    }
+
+    public void setSchedules(Set<Schedule> schedules) {
+        this.schedules = schedules;
     }
 }
