@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public interface StudentService extends UserDetailsService {
     Student register(UserRegisterBindingModel model);
 
+    void save(Student student);
+
     Student current();
 
     void chooseHostel(Long hostelId) throws Exception;

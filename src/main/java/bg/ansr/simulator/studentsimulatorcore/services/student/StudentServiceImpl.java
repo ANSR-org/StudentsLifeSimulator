@@ -129,4 +129,9 @@ public class StudentServiceImpl implements StudentService {
         this.studentRepository.save(student);
         this.universityRepository.save(university);
     }
+
+    @Override
+    public void save(Student student){
+        this.studentRepository.save(student);
+    }
 }

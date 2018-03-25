@@ -22,6 +22,7 @@ public class Student {
     private Lecture currentLecture;
     private Set<Schedule> schedules;
     private Set<Payment> payments;
+    private Set<BlockingEvent> blockingEvents;
 
     public Student() {
         this.schedules = new HashSet<>();
@@ -140,5 +141,14 @@ public class Student {
 
     public void setPayments(Set<Payment> payments) {
         this.payments = payments;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student", targetEntity = BlockingEvent.class)
+    public Set<BlockingEvent> getBlockingEvents() {
+        return blockingEvents;
+    }
+
+    public void setBlockingEvents(Set<BlockingEvent> blockingEvents) {
+        this.blockingEvents = blockingEvents;
     }
 }
