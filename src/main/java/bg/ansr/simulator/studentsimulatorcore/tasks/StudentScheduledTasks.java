@@ -20,7 +20,7 @@ public class StudentScheduledTasks {
         this.studentItemRepository = studentItemRepository;
     }
 
-    @Scheduled(cron = "0 4 * * *")
+    @Scheduled(cron = "0 0 4 * * *")
     public void updateItems() {
         for (StudentItem studentItem : this.studentItemRepository.findItemsForScheduledUpdate()) {
             studentItem.setLastUpdate(new Date());
