@@ -12,7 +12,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     private final BlockingEventsInterceptor blockingEventsInterceptor;
     private final LifecycleInterceptor lifecycleInterceptor;
 
-    public WebConfig(BlockingEventsInterceptor blockingEventsInterceptor, LifecycleInterceptor lifecycleInterceptor) {
+    public WebConfig(BlockingEventsInterceptor blockingEventsInterceptor,
+                     LifecycleInterceptor lifecycleInterceptor) {
         this.blockingEventsInterceptor = blockingEventsInterceptor;
         this.lifecycleInterceptor = lifecycleInterceptor;
     }

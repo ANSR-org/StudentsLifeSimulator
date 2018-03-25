@@ -69,6 +69,7 @@ public class StudentServiceImpl implements StudentService {
         Student student = new Student();
         student.setPassword(this.passwordEncoder.encode(model.getPassword()));
         student.setUsername(model.getUsername());
+        student.setEmail(model.getEmail());
         student.setMoney(0L);
         student.setPopularity(0L);
         student.setEnergy(0L);
