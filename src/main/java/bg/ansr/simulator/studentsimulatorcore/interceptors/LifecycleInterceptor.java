@@ -32,6 +32,7 @@ public class LifecycleInterceptor extends HandlerInterceptorAdapter {
         }
 
         Student student = studentService.current();
+        if (student.getLastGivenIncome() == null) return true;
 
         long seconds = student.getLastGivenIncome().until(LocalDateTime.now(), ChronoUnit.SECONDS);
         if (seconds >= TWO_MINUTES) {

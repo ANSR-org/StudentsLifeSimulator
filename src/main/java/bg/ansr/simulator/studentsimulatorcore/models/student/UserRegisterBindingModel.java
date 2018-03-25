@@ -4,6 +4,18 @@ public class UserRegisterBindingModel {
 
     private String username;
     private String password;
+    private String email;
+
+    public UserRegisterBindingModel() {
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getUsername() {
         return username;

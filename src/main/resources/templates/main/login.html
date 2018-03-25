@@ -9,22 +9,22 @@
 <body>
 <div class="bgr-logo">
 
-    <form action="">
+    <form method="POST">
         <h1>LOG IN</h1>
         <label>
             <span>Name</span>
-            <input type="text" placeholder="name" />
+            <input type="text" placeholder="name" th:name="username"/>
         </label>
 
         <label>
             <span>Email</span>
-            <input type="text" placeholder="email" />
+            <input type="text" placeholder="email" th:name="email"/>
         </label>
 
 
         <label>
             <span>Password</span>
-            <input type="password" placeholder="password" />
+            <input type="password" placeholder="password" th:name="password"/>
         </label>
 
         <div id="registered-user">

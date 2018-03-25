@@ -4,6 +4,7 @@ import bg.ansr.simulator.studentsimulatorcore.entities.BlockingEvent;
 import bg.ansr.simulator.studentsimulatorcore.entities.Student;
 import bg.ansr.simulator.studentsimulatorcore.repositories.blockingEvent.BlockingEventRepository;
 import bg.ansr.simulator.studentsimulatorcore.services.student.StudentService;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -27,7 +28,14 @@ public class BlockingEventsInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if("anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
+
+        if (request.getRequestURI().equals("/error")) {
+            return false;
+        }
+
+        Authentication logedUser =SecurityContextHolder.getContext().getAuthentication();
+        Object princ = logedUser.getPrincipal();
+        if("anonymousUser".equals(princ)) {
             return true;
         }
 

@@ -16,10 +16,10 @@ public class StudentsController extends BaseController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/")
-    public ModelAndView index() {
-        return this.view();
-    }
+//    @GetMapping("/")
+//    public ModelAndView index() {
+//        return this.view();
+//    }
 
     @GetMapping("/login")
     public String login() {
