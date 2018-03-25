@@ -1,11 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="model" type="bg.ansr.simulator.studentsimulatorcore.models.specialty.ChooseSpecialtyViewModel"*/-->
 <main>
-    <form method="post" th:object="${model.mapHolder}">
-        <div th:each="question : ${model.questions}">
+    <form class="test-form" method="post" th:object="${model.mapHolder}">
+        <div class="q-div" th:each="question : ${model.questions}">
             <input type="text" disabled="disabled" th:value="${question.question}"/><br/>
             <input type="text" th:name="'answers['+${question.id}+']'" placeholder="Your answer here..."/>
         </div>
-        <input type="submit" value="Apply!"/>
+        <input class="uni-buttons" type="submit" value="Apply!"/>
     </form>
 </main>
