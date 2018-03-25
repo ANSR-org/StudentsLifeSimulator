@@ -2,6 +2,7 @@ package bg.ansr.simulator.studentsimulatorcore.controllers;
 
 import bg.ansr.simulator.studentsimulatorcore.entities.Payment;
 import bg.ansr.simulator.studentsimulatorcore.entities.PaymentPackage;
+import bg.ansr.simulator.studentsimulatorcore.entities.Student;
 import bg.ansr.simulator.studentsimulatorcore.models.payment.PreparePaymentViewModel;
 import bg.ansr.simulator.studentsimulatorcore.repositories.payment.PaymentPackageRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.payment.PaymentRepository;
@@ -108,12 +109,10 @@ public class PaymentsController extends BaseController {
                 request.getParameter("bt_payload")
         );
 
-        System.out.println(webhookNotification.getTransaction().getAmount());
-        System.out.println(webhookNotification.getTransaction().getId());
         Payment payment = this.paymentRepository.findFirstByTransaction(webhookNotification.getTransaction().getId());
-        System.out.println(payment.getStudent().getUsername());
-        System.out.println(payment.getPaymentPackage().getIngameMoney());
-        System.out.println(payment.getPaymentPackage().getUSD());
-        return null;
+        Student student = payment.getStudent();
+        student.setMoney(student.getMoney() + (long)payment.getPaymentPackage().getIngameMoney());
+        this.studentService.save(student);
+        return true;
     }
 }
