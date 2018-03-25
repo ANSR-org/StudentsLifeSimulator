@@ -42,7 +42,7 @@ html {
 }
 
 body {
-    margin: 0px;
+    margin: 0;
     font-family: 'Fjalla One', sans-serif;
     background: linear-gradient(to bottom, #e0bc5c 0%, #656f6f 100%);
 }
@@ -120,7 +120,7 @@ h1 {
 
 .login-form {
     width: 30%;
-    margin: 0px auto;
+    margin: 0 auto;
     padding-top: 80px;
     padding-bottom: 80px;
     padding-left: 30px;
@@ -186,7 +186,8 @@ a:hover {
     margin-bottom: 0;
     margin-left:-4px;
     margin-right: 0;
-    border-right-width: 0;
+    border: none;
+    border-radius: 0;
 }
 
 .list-group-item {
@@ -198,16 +199,21 @@ a:hover {
     background-color: #f9f9f9;
 }
 
-a {
-    color:white;
+.list-group-item a {
+    color:#4B4A4E;
+    border: none;
 }
 
-a:focus, a:hover {
+.list-group-item a:hover {
+    color:#e0bc5c;
+    border: none;
+}
 
+.list-group-item:first-child {
+    border-radius: 0;
 }
 
 .university {
-
     color: #fff;
     text-transform: uppercase;
     font-size: 36px;
