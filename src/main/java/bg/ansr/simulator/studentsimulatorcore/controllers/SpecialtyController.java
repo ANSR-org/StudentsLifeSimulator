@@ -6,6 +6,7 @@ import bg.ansr.simulator.studentsimulatorcore.entities.Student;
 import bg.ansr.simulator.studentsimulatorcore.models.lecture.ChosenOptionalLectureWrapper;
 import bg.ansr.simulator.studentsimulatorcore.models.lecture.LecturesViewModel;
 import bg.ansr.simulator.studentsimulatorcore.models.specialty.ChooseSpecialtyBindingModel;
+import bg.ansr.simulator.studentsimulatorcore.models.specialty.ChooseSpecialtyViewModel;
 import bg.ansr.simulator.studentsimulatorcore.repositories.lecture.LectureRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.specialty.SpecialtyQuestionRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.specialty.SpecialtyRepository;
@@ -55,7 +56,10 @@ public class SpecialtyController extends BaseController {
 
     @GetMapping("/specialties/{id}/test")
     public ModelAndView test(@PathVariable Long id) {
-        return this.view(this.specialtyRepository.findOne(id).getQuestions());
+        return this.view(new ChooseSpecialtyViewModel(
+                new ChooseSpecialtyBindingModel(),
+                this.specialtyRepository.findOne(id).getQuestions()
+        ));
     }
 
     @PostMapping("/specialties/{id}/test")
@@ -80,7 +84,7 @@ public class SpecialtyController extends BaseController {
             }
         }
 
-        double fraction = Math.max(0.1, size / answered);
+        double fraction = Math.max(0.1, answered / size);
         student.setMoney(student.getMoney() + (int) (START_MONEY * fraction));
         student.setEnergy(student.getEnergy() + (int) (START_ENERGY * fraction));
         student.setPopularity(0L);

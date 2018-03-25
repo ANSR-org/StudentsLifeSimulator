@@ -30,7 +30,7 @@ public class UniversityController extends BaseController {
     @PostMapping("/university/choose/{id}")
     public ModelAndView choose(@PathVariable Long id) throws Exception {
         this.studentService.chooseUniversity(id);
-        return this.redirect("/overview");
+        return this.redirect("/specialties");
     }
 
 

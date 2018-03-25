@@ -75,6 +75,10 @@ public class Seed implements CommandLineRunner {
             question.setQuestion("3+2?");
             question.setAnswer("5");
             question.setSpecialty(magic);
+            SpecialtyQuestion question1 = new SpecialtyQuestion();
+            question1.setQuestion("3+3?");
+            question1.setAnswer("6");
+            question1.setSpecialty(magic);
             this.universityRepository.save(university);
             this.specialtyRepository.save(magic);
             this.questionRepository.save(question);
