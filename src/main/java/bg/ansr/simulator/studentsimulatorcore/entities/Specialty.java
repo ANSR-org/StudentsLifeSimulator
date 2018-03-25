@@ -17,6 +17,8 @@ public class Specialty {
 
     public Specialty() {
         this.students = new HashSet<>();
+        this.questions = new HashSet<>();
+        this.lectures = new HashSet<>();
     }
 
     @Id
