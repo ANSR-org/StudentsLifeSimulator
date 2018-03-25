@@ -1,7 +1,10 @@
 package bg.ansr.simulator.studentsimulatorcore.entities;
 
 
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,13 +22,21 @@ public class Student {
     private Long energy;
     private Long money;
     private Long popularity;
+    private Long incomePerHour;
+    private LocalDateTime lastGivenIncome;
     private Lecture currentLecture;
     private Set<Schedule> schedules;
     private Set<Payment> payments;
+    private Set<BlockingEvent> blockingEvents;
+    private Set<StudentItem> items;
+    private Set<Trade> trades;
 
     public Student() {
         this.schedules = new HashSet<>();
         this.payments = new HashSet<>();
+        this.blockingEvents = new HashSet<>();
+        this.items = new HashSet<>();
+        this.trades = new HashSet<>();
     }
 
     @Id
@@ -115,6 +126,14 @@ public class Student {
         this.popularity = popularity;
     }
 
+    public Long getIncomePerHour() {
+        return this.incomePerHour;
+    }
+
+    public void setIncomePerHour(Long incomePerHour) {
+        this.incomePerHour = incomePerHour;
+    }
+
     @ManyToOne
     public Lecture getCurrentLecture() {
         return this.currentLecture;
@@ -140,5 +159,41 @@ public class Student {
 
     public void setPayments(Set<Payment> payments) {
         this.payments = payments;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student", targetEntity = BlockingEvent.class)
+    public Set<BlockingEvent> getBlockingEvents() {
+        return blockingEvents;
+    }
+
+    public void setBlockingEvents(Set<BlockingEvent> blockingEvents) {
+        this.blockingEvents = blockingEvents;
+    }
+
+    @OneToMany(mappedBy = "student", targetEntity = StudentItem.class)
+    public Set<StudentItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<StudentItem> studentItems) {
+        this.items = studentItems;
+    }
+
+    @OneToMany(mappedBy = "student", targetEntity = Trade.class)
+    public Set<Trade> getTrades() {
+        return trades;
+    }
+
+    public void setTrades(Set<Trade> trades) {
+        this.trades = trades;
+    }
+
+    @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
+    public LocalDateTime getLastGivenIncome() {
+        return this.lastGivenIncome;
+    }
+
+    public void setLastGivenIncome(LocalDateTime lastGivenIncome) {
+        this.lastGivenIncome = lastGivenIncome;
     }
 }

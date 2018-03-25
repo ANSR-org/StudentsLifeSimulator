@@ -1,0 +1,13 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="model" type="java.util.List<bg.ansr.simulator.studentsimulatorcore.entities.StudentItem>"*/-->
+<main>
+<div th:each="item : ${model}">
+    <form method="post">
+        <input type="hidden" name="itemId" th:value="${item.item.id}"/><br/>
+        <input type="text" disabled="disabled" th:value="${item.item.name}"/><br/>
+        <input type="number" name="count" th:value="${item.count}"/><br/>
+        <input type="number" name="price" th:value="${item.count * item.item.basePrice}"/><br/>
+        <input type="submit" value="Sell!"/>
+    </form>
+</div>
+</main>

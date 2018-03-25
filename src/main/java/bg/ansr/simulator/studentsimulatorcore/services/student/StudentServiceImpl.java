@@ -6,6 +6,8 @@ import bg.ansr.simulator.studentsimulatorcore.models.student.UserRegisterBinding
 import bg.ansr.simulator.studentsimulatorcore.repositories.hostel.HostelRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.lecture.LectureRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.schedule.ScheduleRepository;
+import bg.ansr.simulator.studentsimulatorcore.repositories.student.ItemRepository;
+import bg.ansr.simulator.studentsimulatorcore.repositories.student.StudentItemRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.student.StudentRepository;
 import bg.ansr.simulator.studentsimulatorcore.repositories.university.UniversityRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Time;
+import java.util.Date;
 import java.util.HashSet;
 
 @Service
@@ -28,19 +32,25 @@ public class StudentServiceImpl implements StudentService {
     private final UniversityRepository universityRepository;
     private final ScheduleRepository scheduleRepository;
     private final LectureRepository lectureRepository;
+    private final ItemRepository itemRepository;
+    private final StudentItemRepository studentItemRepository;
 
     public StudentServiceImpl(StudentRepository studentRepository,
                               PasswordEncoder passwordEncoder,
                               HostelRepository hostelRepository,
                               UniversityRepository universityRepository,
                               ScheduleRepository scheduleRepository,
-                              LectureRepository lectureRepository) {
+                              LectureRepository lectureRepository,
+                              ItemRepository itemRepository,
+                              StudentItemRepository studentItemRepository) {
         this.studentRepository = studentRepository;
         this.passwordEncoder = passwordEncoder;
         this.hostelRepository = hostelRepository;
         this.universityRepository = universityRepository;
         this.scheduleRepository = scheduleRepository;
         this.lectureRepository = lectureRepository;
+        this.itemRepository = itemRepository;
+        this.studentItemRepository = studentItemRepository;
     }
 
     @Override
@@ -58,7 +68,9 @@ public class StudentServiceImpl implements StudentService {
         Student student = new Student();
         student.setPassword(this.passwordEncoder.encode(model.getPassword()));
         student.setUsername(model.getUsername());
-
+        student.setMoney(0L);
+        student.setPopularity(0L);
+        student.setEnergy(0L);
         return this.studentRepository.saveAndFlush(student);
     }
 
@@ -90,6 +102,18 @@ public class StudentServiceImpl implements StudentService {
         this.studentRepository.save(student);
         hostel.getStudents().add(student);
         this.hostelRepository.save(hostel);
+        for (Item item : this.itemRepository.findAll()) {
+            StudentItem studentItem = new StudentItem();
+            studentItem.setItem(item);
+            studentItem.setCount(1L);
+            studentItem.setStudent(student);
+            studentItem.setLastUpdate(new Date());
+            this.studentItemRepository.save(studentItem);
+            student.getItems().add(studentItem);
+            this.studentRepository.save(student);
+            item.getStudentItems().add(studentItem);
+            this.itemRepository.save(item);
+        }
     }
 
     @Override
@@ -98,11 +122,16 @@ public class StudentServiceImpl implements StudentService {
         chosenLectures.getChosenLectures().forEach(l -> {
             Student student = this.current();
             Lecture lecture = this.lectureRepository.findOne(l.getLectureId());
+            if (lecture.isMandatory()) {
+                return;
+            }
             Schedule schedule = new Schedule();
             schedule.setLecture(lecture);
             schedule.setSubscribedStudent(student);
-            schedule.setStartedAt(l.getStartAt());
-            schedule.setEndedAt(l.getEndAt());
+            long diff = lecture.getEndedAt().getTime() - lecture.getStartedAt().getTime();
+            schedule.setStartedAt(Time.valueOf(l.getStartAt()));
+            long endTime = schedule.getStartedAt().getTime() + diff;
+            schedule.setEndedAt(new Time(endTime));
             this.scheduleRepository.save(schedule);
             student.getSchedules().add(schedule);
             lecture.getSchedules().add(schedule);
@@ -128,5 +157,10 @@ public class StudentServiceImpl implements StudentService {
         student.setUniversity(university);
         this.studentRepository.save(student);
         this.universityRepository.save(university);
+    }
+
+    @Override
+    public void save(Student student){
+        this.studentRepository.save(student);
     }
 }

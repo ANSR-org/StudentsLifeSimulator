@@ -4,8 +4,7 @@ import java.sql.Time;
 
 public class ChosenLectureBindingModel {
     private Long lectureId;
-    private Time startAt;
-    private Time endAt;
+    private String startAt;
 
     public ChosenLectureBindingModel() {
     }
@@ -18,19 +17,11 @@ public class ChosenLectureBindingModel {
         this.lectureId = lectureId;
     }
 
-    public Time getStartAt() {
+    public String getStartAt() {
         return this.startAt;
     }
 
-    public void setStartAt(Time startAt) {
+    public void setStartAt(String startAt) {
         this.startAt = startAt;
-    }
-
-    public Time getEndAt() {
-        return this.endAt;
-    }
-
-    public void setEndAt(Time endAt) {
-        this.endAt = endAt;
     }
 }
