@@ -2,7 +2,7 @@
 <!--/*@thymesVar id="model" type="java.util.List<bg.ansr.simulator.studentsimulatorcore.entities.University>"*/-->
 <main>
     <div th:each="uni : ${model}">
-        <h1 th:text="${uni.name}"></h1>
+        <h1 class="university" th:text="${uni.name}"></h1>
         <form th:action="|/university/choose/${uni.id}|" method="post">
             <input type="submit" value="Choose!"/>
         </form>
