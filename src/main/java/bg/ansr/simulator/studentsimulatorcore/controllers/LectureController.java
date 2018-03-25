@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Objects;
 
@@ -44,6 +47,7 @@ public class LectureController extends BaseController {
             throw new Exception("Lecture is not part of current user specialty");
         }
 
+        LocalDateTime timePoint = LocalDateTime.now();
         Date dateNow = new Date();
         if (lecture.getEndedAt().compareTo(dateNow) > 0) {
             throw new Exception("This lecture has ended");
@@ -53,8 +57,16 @@ public class LectureController extends BaseController {
             throw new Exception("Can not attend the same lecture twice");
         }
 
+        LocalTime localTimeNow = new Time(dateNow.getTime()).toLocalTime();
+        LocalTime localTimeLecture = lecture.getStartedAt().toLocalTime();
+
+        long minDiff = Math.abs(localTimeLecture.until(localTimeNow, ChronoUnit.SECONDS));
+        if (minDiff > 60) {
+            throw new Exception("This lecture is not available");
+        }
+
         BlockingEvent event = new BlockingEvent();
-        if (lecture.getStartedAt().compareTo(dateNow) < 0){
+        if (lecture.getStartedAt().compareTo(dateNow) < 0) {
             event.setStartedAt(lecture.getStartedAt());
         } else {
             event.setStartedAt(new Time(dateNow.getTime()));
