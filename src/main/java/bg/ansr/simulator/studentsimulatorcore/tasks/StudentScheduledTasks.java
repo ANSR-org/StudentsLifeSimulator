@@ -1,5 +1,6 @@
 package bg.ansr.simulator.studentsimulatorcore.tasks;
 
+import bg.ansr.simulator.studentsimulatorcore.entities.Student;
 import bg.ansr.simulator.studentsimulatorcore.entities.StudentItem;
 import bg.ansr.simulator.studentsimulatorcore.repositories.student.StudentItemRepository;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,6 +26,8 @@ public class StudentScheduledTasks {
         for (StudentItem studentItem : this.studentItemRepository.findItemsForScheduledUpdate()) {
             studentItem.setLastUpdate(new Date());
             studentItem.setCount(studentItem.getCount() + SCHEDULED_ITEMS_BONUS);
+            Student student = studentItem.getStudent();
+            student.setPoints(student.getPoints() + (long)((studentItem.getCount() * studentItem.getItem().getBasePrice()) / 10));
             this.studentItemRepository.save(studentItem);
         }
     }

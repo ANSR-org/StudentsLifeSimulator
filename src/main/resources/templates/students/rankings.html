@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="model" type="java.util.List<bg.ansr.simulator.studentsimulatorcore.entities.Student>"*/-->
+<main>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Student</th>
+            <th>Points</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student, i : ${model}">
+            <td th:text="${i.index+1}"></td>
+            <td th:text="${student.username}"></td>
+            <td th:text="${student.points}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>

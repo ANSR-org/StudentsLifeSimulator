@@ -30,6 +30,7 @@ public class Student {
     private Set<BlockingEvent> blockingEvents;
     private Set<StudentItem> items;
     private Set<Trade> trades;
+    private Long points;
 
     public Student() {
         this.schedules = new HashSet<>();
@@ -37,6 +38,7 @@ public class Student {
         this.blockingEvents = new HashSet<>();
         this.items = new HashSet<>();
         this.trades = new HashSet<>();
+        this.points = 0L;
     }
 
     @Id
@@ -195,5 +197,13 @@ public class Student {
 
     public void setLastGivenIncome(LocalDateTime lastGivenIncome) {
         this.lastGivenIncome = lastGivenIncome;
+    }
+
+    public Long getPoints() {
+        return points;
+    }
+
+    public void setPoints(Long points) {
+        this.points = points;
     }
 }

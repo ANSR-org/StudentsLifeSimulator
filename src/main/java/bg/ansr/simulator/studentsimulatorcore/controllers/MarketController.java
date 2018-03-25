@@ -54,7 +54,9 @@ public class MarketController extends BaseController {
         }
         Student seller = trade.getStudent();
 
+        seller.setPoints(seller.getPoints() - (trade.getPrice().longValue() / 10));
         seller.setMoney(seller.getMoney() + trade.getPrice().longValue());
+        buyer.setPoints(buyer.getPoints() + (trade.getPrice().longValue() / 10));
         buyer.setMoney(buyer.getMoney() - trade.getPrice().longValue());
         StudentItem studentItem = buyer.getItems().stream().filter(i -> i.getItem().getId().equals(trade.getItem().getId()))
                 .findFirst()

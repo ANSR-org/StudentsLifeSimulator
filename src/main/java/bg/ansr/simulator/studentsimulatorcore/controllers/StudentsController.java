@@ -1,6 +1,7 @@
 package bg.ansr.simulator.studentsimulatorcore.controllers;
 
 import bg.ansr.simulator.studentsimulatorcore.models.student.UserRegisterBindingModel;
+import bg.ansr.simulator.studentsimulatorcore.repositories.student.StudentRepository;
 import bg.ansr.simulator.studentsimulatorcore.services.student.StudentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 public class StudentsController extends BaseController {
 
     private final StudentService studentService;
+    private final StudentRepository studentRepository;
 
-    public StudentsController(StudentService studentService) {
+    public StudentsController(StudentService studentService, StudentRepository studentRepository) {
         this.studentService = studentService;
+        this.studentRepository = studentRepository;
     }
 
     @GetMapping("/login")
@@ -43,5 +46,10 @@ public class StudentsController extends BaseController {
             e.printStackTrace();
             return this.view();
         }
+    }
+
+    @GetMapping("/rankings")
+    public ModelAndView rankings() {
+        return this.view(this.studentRepository.findAllByOrderByPointsDesc());
     }
 }
