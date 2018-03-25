@@ -20,6 +20,24 @@ html {
     height: 60%;
 }
 
+.box-background {
+    background: rgba(100, 106, 109, 0.6);
+    width: 50%;
+    margin: 0 auto;
+    padding: 43px;
+    font-size: 30px;
+    height: 80%;
+    color:white;
+}
+
+.box-background input{
+    display: block;
+    padding: 9px;
+    border-radius: 11px;
+    border: none;
+    outline: none;
+    color:black;
+}
 
 .bgr-logo form label {
     display: block;
@@ -249,6 +267,13 @@ a:hover {
     cursor: pointer;
     color: white;
     border: 3px solid white;
+}
+
+.white-box {
+    background-color: white;
+    padding: 5px;
+    margin: 10px 3px;
+    border-radius: 3px;
 }
 
 .navbar-nav {
