@@ -97,7 +97,7 @@ public class SpecialtyController extends BaseController {
     }
 
     @GetMapping("/specialty/{id}/lectures/mandatory")
-    public ModelAndView mandatoryLectures(@PathVariable Long id) throws Exception {
+    public ModelAndView lectures(@PathVariable Long id) throws Exception {
         if (this.validateSpecialty(id)) {
             LecturesViewModel lecturesViewModel = new LecturesViewModel();
             lecturesViewModel.setMandatoryLectures(this.lectureRepository.findAllBySpecialtyId(id));
@@ -108,7 +108,7 @@ public class SpecialtyController extends BaseController {
     }
 
     @PostMapping("/specialty/{id}/lectures/mandatory")
-    public ModelAndView optionalLectures(@PathVariable Long id, ChosenOptionalLectureWrapper chosenLectures) throws Exception {
+    public ModelAndView lectures(@PathVariable Long id, ChosenOptionalLectureWrapper chosenLectures) throws Exception {
         if (this.validateSpecialty(id)) {
             this.studentService.chooseOptionalLectures(chosenLectures);
             return this.redirect("/hostels/choose");

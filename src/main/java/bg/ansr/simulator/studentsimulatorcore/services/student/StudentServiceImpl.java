@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Time;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -121,11 +122,16 @@ public class StudentServiceImpl implements StudentService {
         chosenLectures.getChosenLectures().forEach(l -> {
             Student student = this.current();
             Lecture lecture = this.lectureRepository.findOne(l.getLectureId());
+            if (lecture.isMandatory()) {
+                return;
+            }
             Schedule schedule = new Schedule();
             schedule.setLecture(lecture);
             schedule.setSubscribedStudent(student);
-            schedule.setStartedAt(l.getStartAt());
-            schedule.setEndedAt(l.getEndAt());
+            long diff = lecture.getEndedAt().getTime() - lecture.getStartedAt().getTime();
+            schedule.setStartedAt(Time.valueOf(l.getStartAt()));
+            long endTime = schedule.getStartedAt().getTime() + diff;
+            schedule.setEndedAt(new Time(endTime));
             this.scheduleRepository.save(schedule);
             student.getSchedules().add(schedule);
             lecture.getSchedules().add(schedule);

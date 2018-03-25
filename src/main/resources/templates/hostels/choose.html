@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="model" type="java.util.List<bg.ansr.simulator.studentsimulatorcore.entities.Hostel>"*/-->
+<main>
+    <h1>Rent a hostel</h1>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Hostel name</th>
+            <th>Distance</th>
+            <th>Noise</th>
+            <th>Pollution</th>
+            <th>Mates</th>
+            <th>Price</th>
+            <th>Img</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="hostel : ${model}">
+            <th th:text="${hostel.name}"></th>
+            <th th:text="${hostel.distance}"></th>
+            <th th:text="${hostel.noise}"></th>
+            <th th:text="${hostel.pollution}"></th>
+            <th th:text="${#strings.listJoin(hostel.students, ', ')}"></th>
+            <th th:text="${hostel.rentPrice}"></th>
+            <th><img width="15px" height="15px" src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Hostel_Dormitory.jpg"/></th>
+            <th>
+                <form method="post" th:action="|/hostels/choose/${hostel.id}|">
+                    <input type="submit" value="Rent!"/>
+                </form>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</main>
