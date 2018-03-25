@@ -6,10 +6,12 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 @SpringBootApplication
 @PropertySource(value = {"classpath:app.properties", "classpath:local.properties"})
 @EnableScheduling
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class StudentSimulatorCoreApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
