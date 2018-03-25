@@ -1,0 +1,8 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="model" type="java.util.List<bg.ansr.simulator.studentsimulatorcore.entities.Specialty>"*/-->
+<main>
+    <div th:each="spec : ${model}">
+        <span th:text="${spec.name}"></span>
+        <a th:href="|/specialties/${spec.id}/test|">Apply</a>
+    </div>
+</main>
