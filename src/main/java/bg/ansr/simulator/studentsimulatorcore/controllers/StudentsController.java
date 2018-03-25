@@ -17,13 +17,13 @@ public class StudentsController extends BaseController {
     }
 
     @GetMapping("/login")
-    public ModelAndView login() {
-        return this.view();
+    public String login() {
+        return "main/login";
     }
 
     @GetMapping("/students/register")
-    public ModelAndView register() {
-        return this.view();
+    public String register() {
+        return "main/register";
     }
 
     @PostMapping("/students/register")
