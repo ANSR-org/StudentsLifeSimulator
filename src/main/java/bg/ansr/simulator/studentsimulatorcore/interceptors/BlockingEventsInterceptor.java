@@ -17,12 +17,11 @@ public class BlockingEventsInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser"))) {
+        if(!("anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal()))) {
             Set<BlockingEvent> blockingEvents = studentService.current().getBlockingEvents();
             if(!blockingEvents.isEmpty()) {
                 response.sendRedirect(blockingEvents.iterator().next().getLastUrl());
             }
-            System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         }
 
         return true;
