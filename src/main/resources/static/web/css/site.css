@@ -222,3 +222,35 @@ a:hover {
     width: 100%;
     display: block;
 }
+.unis {
+    width: 100%;
+    margin: 0px auto;
+}
+
+
+.container {
+    max-width: 100%;
+}
+
+.uni-buttons {
+    margin: 0 auto;
+    margin-top: 30px;
+    border-radius: 12px;
+    background: transparent;
+    border: 3px solid #e0bc5c;
+    font-size: 25px;
+    color: #e0bc5c;
+    padding-left: 22px;
+    padding-right: 22px;
+    text-align: center;
+}
+
+.uni-buttons:hover{
+    cursor: pointer;
+    color: white;
+    border: 3px solid white;
+}
+
+.navbar-nav {
+
+}

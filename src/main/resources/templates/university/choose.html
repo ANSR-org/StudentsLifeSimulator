@@ -1,10 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="model" type="java.util.List<bg.ansr.simulator.studentsimulatorcore.entities.University>"*/-->
 <main>
-    <div th:each="uni : ${model}">
+    <div class="unis" th:each="uni : ${model}">
         <h1 class="university" th:text="${uni.name}"></h1>
         <form th:action="|/university/choose/${uni.id}|" method="post">
-            <input type="submit" value="Choose!"/>
+            <input type="submit" value="Choose!" class="uni-buttons"/>
         </form>
     </div>
 </main>
