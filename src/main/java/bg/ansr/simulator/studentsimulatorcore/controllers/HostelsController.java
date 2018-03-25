@@ -34,6 +34,6 @@ public class HostelsController extends BaseController {
     @PostMapping("/hostels/choose/{id}")
     public ModelAndView choose(@PathVariable Long id) throws Exception {
         this.studentService.chooseHostel(id);
-        return this.redirect("/overview");
+        return this.redirect("/home");
     }
 }

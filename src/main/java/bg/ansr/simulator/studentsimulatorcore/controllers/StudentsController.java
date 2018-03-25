@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class StudentsController extends BaseController {
 
@@ -16,19 +18,15 @@ public class StudentsController extends BaseController {
         this.studentService = studentService;
     }
 
-//    @GetMapping("/")
-//    public ModelAndView index() {
-//        return this.view();
-//    }
-
     @GetMapping("/login")
     public String login() {
         return "main/login";
     }
 
     @GetMapping("/logout")
-    public ModelAndView logout() {
-        return this.view();
+    public ModelAndView logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return this.redirect("/login");
     }
 
     @GetMapping("/students/register")

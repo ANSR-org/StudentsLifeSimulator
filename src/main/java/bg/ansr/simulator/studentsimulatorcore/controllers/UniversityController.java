@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @PreAuthorize("isAuthenticated()")
 public class UniversityController extends BaseController {
@@ -23,7 +25,7 @@ public class UniversityController extends BaseController {
     }
 
     @GetMapping("/university/choose")
-    public ModelAndView choose() {
+    public ModelAndView choose(HttpServletRequest request) {
         return this.view(this.universityRepository.findAll());
     }
 
