@@ -1,8 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="model" type="java.util.List<bg.ansr.simulator.studentsimulatorcore.entities.Hostel>"*/-->
 <main>
-    <h1>Rent a hostel</h1>
-    <table border="1">
+    <h3>Rent a hostel</h3>
+    <table class="table" border="1">
         <thead>
         <tr>
             <th>Hostel name</th>
@@ -23,10 +23,10 @@
             <th th:text="${hostel.pollution}"></th>
             <th th:text="${#strings.listJoin(hostel.students, ', ')}"></th>
             <th th:text="${hostel.rentPrice}"></th>
-            <th><img width="15px" height="15px" src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Hostel_Dormitory.jpg"/></th>
+            <th><img width="100px" height="100px" src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Hostel_Dormitory.jpg"/></th>
             <th>
                 <form method="post" th:action="|/hostels/choose/${hostel.id}|">
-                    <input type="submit" value="Rent!"/>
+                    <input class="login-btn" type="submit" value="Rent"/>
                 </form>
             </th>
         </tr>

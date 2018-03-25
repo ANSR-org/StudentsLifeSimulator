@@ -1,8 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="model" type="bg.ansr.simulator.studentsimulatorcore.models.lecture.LecturesViewModel"*/-->
 <main>
-    <h1>University Schedule</h1>
-    <table border="1">
+    <h3>University Schedule</h3>
+    <table class="table" border="1">
         <thead>
         <tr>
             <th>Lecture name</th>
@@ -21,7 +21,7 @@
         </tbody>
     </table>
     <hr/>
-    <h1>Liberal Arts</h1>
+    <h3>Liberal Arts</h3>
     <form method="post">
         <div th:each="optional,i : ${model.optionalLectures}">
             <input type="text" disabled="disabled" th:value="${optional.name}"/>
@@ -29,6 +29,6 @@
             <input type="text" th:name="'chosenLectures['+${i.index}+'].startAt'" th:value="${optional.startedAt}"/><br/>
             <hr/>
         </div>
-        <input type="submit" value="Arrange!"/>
+        <input class="login-btn" type="submit" value="Arrange"/>
     </form>
 </main>

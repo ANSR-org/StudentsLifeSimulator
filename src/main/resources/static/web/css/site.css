@@ -24,6 +24,7 @@ html {
     background: rgba(100, 106, 109, 0.6);
     width: 50%;
     margin: 0 auto;
+    margin-top: 10px;
     padding: 43px;
     font-size: 30px;
     height: 80%;
@@ -97,10 +98,18 @@ body {
     text-shadow: #533d4a 1px 1px, #533d4a 2px 2px, #533d4a 3px 3px, #533d4a 4px 4px;
 }
 
-h1 {
+h1{
     color: #fff;
     text-transform: uppercase;
     font-size: 72px;
+    margin: 0;
+    line-height: 80px;
+    letter-spacing: 3px;
+}
+
+h3 {
+    color: #fff;
+    text-transform: uppercase;
     margin: 0;
     line-height: 80px;
     letter-spacing: 3px;
@@ -348,13 +357,6 @@ a:hover {
     font-size: 25px;
 }
 
-.test-form input {
-    background: transparent;
-    border: none;
-    color: white;
-    padding: 15px;
-}
-
 .test-form input::placeholder {
     color: white;
 }
@@ -378,3 +380,6 @@ a:hover {
     border: 3px solid white;
 }
 
+.table {
+    color:white;
+}
