@@ -8,13 +8,14 @@ import bg.ansr.simulator.studentsimulatorcore.repositories.lecture.LectureReposi
 import bg.ansr.simulator.studentsimulatorcore.services.student.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.sql.Time;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAmount;
 import java.util.Date;
 import java.util.Objects;
 
@@ -34,7 +35,7 @@ public class LectureController extends BaseController {
         this.studentService = studentService;
     }
 
-    @PostMapping("/lecture/attend/{id}")
+    @GetMapping("/lecture/attend/{id}")
     public String attend(@PathVariable Long id) throws Exception {
         Lecture lecture = this.lectureRepository.findOne(id);
         Student student = this.studentService.current();
@@ -59,25 +60,20 @@ public class LectureController extends BaseController {
 
         LocalTime localTimeNow = new Time(dateNow.getTime()).toLocalTime();
         LocalTime localTimeLecture = lecture.getStartedAt().toLocalTime();
+        LocalTime localTimeEndLecture = lecture.getEndedAt().toLocalTime();
 
         long minDiff = Math.abs(localTimeLecture.until(localTimeNow, ChronoUnit.SECONDS));
-        if (minDiff > 60) {
+        double seconds = Math.floor(Duration.between(localTimeLecture, localTimeEndLecture).dividedBy(3).getSeconds());
+
+        if (minDiff > seconds) {
             throw new Exception("This lecture is not available");
         }
 
-        BlockingEvent event = new BlockingEvent();
-        if (lecture.getStartedAt().compareTo(dateNow) < 0) {
-            event.setStartedAt(lecture.getStartedAt());
-        } else {
-            event.setStartedAt(new Time(dateNow.getTime()));
-        }
-
-        event.setEndedAt(lecture.getEndedAt());
-
-        student.getBlockingEvents().add(event);
-        decreaseEnergy(lecture, student);
-        event.setStudent(student);
+        BlockingEvent event = getBlockingEvent(student, localTimeLecture, localTimeEndLecture);
         event.setLastUrl("/specialty/" + lecture.getSpecialty().getId() + "/lectures/mandatory/");
+        student.getBlockingEvents().add(event);
+
+        decreaseEnergy(lecture, student);
         lecture.getStudents().add(student);
         student.setCurrentLecture(lecture);
 
@@ -85,6 +81,22 @@ public class LectureController extends BaseController {
         blockingEventRepository.save(event);
         studentService.save(student);
         return "students/index";
+    }
+
+    private BlockingEvent getBlockingEvent(Student student, LocalTime localTimeLecture, LocalTime localTimeEndLecture) {
+        BlockingEvent event = new BlockingEvent();
+        event.setStartedAt(LocalDateTime.now()
+                .withHour(localTimeLecture.getHour())
+                .withMinute(localTimeLecture.getMinute())
+                .withSecond(localTimeLecture.getSecond()));
+
+        event.setEndedAt(LocalDateTime.now()
+                .withHour(localTimeEndLecture.getHour())
+                .withMinute(localTimeEndLecture.getMinute())
+                .withSecond(localTimeEndLecture.getSecond()));
+
+        event.setStudent(student);
+        return event;
     }
 
     private void decreaseEnergy(Lecture lecture, Student student) throws Exception {

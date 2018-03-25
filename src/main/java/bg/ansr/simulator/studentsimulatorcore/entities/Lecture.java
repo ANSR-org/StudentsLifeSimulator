@@ -18,6 +18,7 @@ public class Lecture {
     private Long energyCost;
     private boolean isMandatory;
     private Set<Schedule> schedules;
+    private Long moneyProfit;
 
     public Lecture() {
         this.students = new HashSet<>();
@@ -101,5 +102,13 @@ public class Lecture {
 
     public void setSchedules(Set<Schedule> schedules) {
         this.schedules = schedules;
+    }
+
+    public Long getMoneyProfit() {
+        return this.moneyProfit;
+    }
+
+    public void setMoneyProfit(Long moneyProfit) {
+        this.moneyProfit = moneyProfit;
     }
 }

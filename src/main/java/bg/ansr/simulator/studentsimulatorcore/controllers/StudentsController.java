@@ -16,8 +16,18 @@ public class StudentsController extends BaseController {
         this.studentService = studentService;
     }
 
+    @GetMapping("/")
+    public ModelAndView index() {
+        return this.view();
+    }
+
     @GetMapping("/login")
     public ModelAndView login() {
+        return this.view();
+    }
+
+    @GetMapping("/logout")
+    public ModelAndView logout() {
         return this.view();
     }
 

@@ -1,7 +1,9 @@
 package bg.ansr.simulator.studentsimulatorcore.entities;
 
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+
 import javax.persistence.*;
-import java.sql.Time;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "blocking_events")
@@ -9,8 +11,8 @@ public class BlockingEvent {
 
     private Long id;
     private Student student;
-    private Time startedAt;
-    private Time endedAt;
+    private LocalDateTime startedAt;
+    private LocalDateTime endedAt;
     private String lastUrl;
 
     @Id
@@ -32,19 +34,21 @@ public class BlockingEvent {
         this.student = student;
     }
 
-    public Time getStartedAt() {
+    @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
+    public LocalDateTime getStartedAt() {
         return startedAt;
     }
 
-    public void setStartedAt(Time startedAt) {
+    public void setStartedAt(LocalDateTime startedAt) {
         this.startedAt = startedAt;
     }
 
-    public Time getEndedAt() {
+    @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
+    public LocalDateTime getEndedAt() {
         return endedAt;
     }
 
-    public void setEndedAt(Time endedAt) {
+    public void setEndedAt(LocalDateTime endedAt) {
         this.endedAt = endedAt;
     }
 
